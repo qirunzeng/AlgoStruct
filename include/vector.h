@@ -1,33 +1,37 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
-#include <iostream>
+#include <cassert>
+#include <algorithm.h>
+#include <utility.h>
+#include <memory>     // for std::unique_ptr
+
 
 namespace my {
     template <typename T>
     class vector {
     private:
         std::unique_ptr<T[]> data;
-        int size;
+        int cur_size;
         int max_size;
 
         void Init() {
-            max_size = size = 0;
+            max_size = cur_size = 0;
             data = nullptr;
         }
 
         void clear() {
-            max_size = size = 0;
+            max_size = cur_size = 0;
         }
 
-        void reserve(int nSize) {
-            if (max_size >= nSize)
+        void reserve(int n) {
+            if (max_size >= n)
                 return ;
             if (max_size == 0) max_size = 1;
-            while (max_size < nSize)
+            while (max_size < n)
                 max_size <<= 1;
             std::unique_ptr<T[]> pTemp(new T[static_cast<size_t>(max_size)]);
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < cur_size; ++i) {
                 pTemp[i] = data[i];
             }
             data = move(pTemp);
@@ -37,27 +41,27 @@ namespace my {
             Init();
         }
         
-        vector(int nSize, const T& dValue) {
-            assert(nSize >= 0);
-            if (nSize == 0) {
+        vector(int n, const T& val) {
+            assert(n >= 0);
+            if (n == 0) {
                 Init();
             }
             max_size = 1;
-            while (max_size < nSize) {
+            while (max_size < n) {
                 max_size <<= 1;
             }
             data = new T[max_size];
-            size = nSize;
-            for (int i = 0; i < size; ++i) {
-                data[i] = dValue;
+            cur_size = n;
+            for (int i = 0; i < cur_size; ++i) {
+                data[i] = val;
             }
         } 
 
         vector(const vector& arr) {
             max_size  = arr.max_size;
-            size = arr.size;
+            cur_size = arr.size;
             data.reset(new T[max_size]);
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < cur_size; ++i) {
                 data[i] = arr.data[i];
             }
         }
@@ -65,76 +69,63 @@ namespace my {
         ~vector() {}
 
         int size() const {
-            return size;
+            return cur_size;
         }
 
-        void set_size(const int nSize) {
-            assert(nSize >= 0);
-            if (nSize <= max_size) {
-                for (int i = size; i < nSize; ++i) {
-                    data[i] = 0;
-                }
-                size = nSize;
-            }
-            else {
-                reserve(nSize);
-            }
+        T& operator[](int idx) {
+            assert(idx >= 0 && idx < cur_size);
+            return data[idx];
         }
 
-        T& operator[](int nIndex) {
-            assert(nIndex >= 0 && nIndex < size);
-            return data[nIndex];
+        const T& operator[](int idx) const {
+            assert(idx >= 0 && idx < cur_size);
+            return data[idx];
         }
 
-        const T& operator[](int nIndex) const {
-            assert(nIndex >= 0 && nIndex < size);
-            return data[nIndex];
-        }
-
-        void push_back(const T& dValue) {
-            reserve(size+1);
-            data[size++] = dValue;
+        void push_back(const T& val) {
+            reserve(cur_size+1);
+            data[cur_size++] = val;
         }
 
         void pop_back() {
-            size--;
+            cur_size--;
         }
 
         void shrink_to_fit() {
-            if (size == 0) {
+            if (cur_size == 0) {
                 max_size = 0;
                 data.reset();
                 return ;
             }
-            while (max_size >= (size<<1)) {
+            while (max_size >= (cur_size<<1)) {
                 max_size >>= 1;
             }
             std::unique_ptr<T[]> pTemp(new T[static_cast<size_t>(max_size)]);
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < cur_size; ++i) {
                 pTemp[i] = data[i];
             }
             data = move(pTemp);
         }
 
         bool empty() {
-            return size == 0;
+            return cur_size == 0;
         }
 
-        void delete_at(int nIndex) {
-            assert(nIndex >= 0 && nIndex < size);
-            size--;
-            for (int i = nIndex; i < size; ++i) {
+        void delete_at(int idx) {
+            assert(idx >= 0 && idx < cur_size);
+            cur_size--;
+            for (int i = idx; i < cur_size; ++i) {
                 data[i] = data[i+1];
             }
         }
 
-        void insert(int nIndex, const T& dValue) {
-            assert(nIndex >= 0 && nIndex <= size);
-            reserve(size+1);
-            for (int i = size; i > nIndex; --i) {
+        void insert(int idx, const T& val) {
+            assert(idx >= 0 && idx <= cur_size);
+            reserve(cur_size+1);
+            for (int i = cur_size; i > idx; --i) {
                 data[i] = data[i-1];
             }
-            data[nIndex] = dValue;
+            data[idx] = val;
         }
 
         vector& operator = (const vector& arr) {
@@ -142,12 +133,20 @@ namespace my {
                 return *this;
             }
             max_size  = arr.max_size;
-            size = arr.size;
+            cur_size = arr.size;
             data.reset(new T[max_size]);
-            for (int i = 0; i < size; ++i) {
+            for (int i = 0; i < cur_size; ++i) {
                 data[i] = arr.data[i];
             }
             return *this;
+        }
+
+        void resize(int n, int val = 0) {
+            assert(n >= 0);
+            reserve(n);
+            while (cur_size < n) {
+                data[cur_size++] = val;
+            }
         }
     };
 }

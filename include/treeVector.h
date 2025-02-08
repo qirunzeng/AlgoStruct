@@ -8,14 +8,16 @@
 #ifndef _TREEVECTOR_H_
 #define _TREEVECTOR_H_
 
+#include <vector.h>
+
 /**
  * 树状数组
  */
 namespace my {
     class treeVector {
     private:
-        int *sums;
-        int *nums;
+        vector<int> sums;
+        vector<int> nums;
         int  size;
 
         // return sums(a[1 .. x])
@@ -38,8 +40,8 @@ namespace my {
         treeVector() : size(0) {}
 
         treeVector(int *arr, const int n) : size(n) {
-            sums  = new int[n+1];
-            nums = new int[n+1];
+            sums.resize(n);
+            nums.resize(n);
             sums[0] = nums[0] = 0;
             for (int i = 0; i < n; ++i) {
                 nums[i+1] = arr[i];

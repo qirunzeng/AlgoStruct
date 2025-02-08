@@ -5,10 +5,10 @@
 
 namespace my {
 
-    #define INT_MAX     0x7fffffff
-    #define UINT_MAX    0xffffffffU
-    #define INT64_MAX   0x7fffffffffffffffLL
-    #define UINT64_MAX  0xffffffffffffffffLL
+    #define _INT_MAX_     0x7fffffff
+    #define _UINT_MAX_    0xffffffffU
+    #define _INT64_MAX_   0x7fffffffffffffffLL
+    #define _UINT64_MAX_  0xffffffffffffffffLL
 
     template <typename T>
     void swap(T &a, T &b) {
@@ -17,10 +17,6 @@ namespace my {
         b = temp;
     }
 
-    template <typename T>
-    T &&move(T &a) {
-        return static_cast<T &&>(a);
-    }
 
     template <typename T1, typename T2>
     struct pair {
@@ -29,7 +25,7 @@ namespace my {
         pair(T1 &a, T2 &b) : first(a), second(b) {}
     };
 
-    int myPow(const int base, const int exp, const int mod = INT_MAX) {
+    int pow(const int base, const int exp, const int mod = _INT_MAX_) {
         assert(exp >= 0);
         auto _pow = [&mod] (auto&& self, const int base, const int exp) -> int {
             if ((exp & ~1) == 0) {
@@ -41,7 +37,7 @@ namespace my {
         return _pow(_pow, base, exp);
     }
 
-    int64_t myPow(const int64_t base, const int64_t exp, const int64_t mod = INT64_MAX) {
+    int64_t pow(const int64_t base, const int64_t exp, const int64_t mod = _INT64_MAX_) {
         assert(exp >= 0);
         auto _pow = [&mod] (auto&& self, const int64_t base, const int64_t exp) -> int64_t {
             if ((exp & ~1) == 0) {
