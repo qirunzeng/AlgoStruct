@@ -8,7 +8,7 @@
 #ifndef _TREEVECTOR_H_
 #define _TREEVECTOR_H_
 
-#include <vector.h>
+#include "vector.h"
 
 /**
  * 树状数组

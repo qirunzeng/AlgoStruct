@@ -2,8 +2,8 @@
 #define _VECTOR_H_
 
 #include <cassert>
-#include <algorithm.h>
-#include <utility.h>
+#include "algorithm.h"
+#include "utility.h"
 #include <memory>     // for std::unique_ptr
 
 
