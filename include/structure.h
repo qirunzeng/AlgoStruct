@@ -2,9 +2,14 @@
 # define _STRUCTURE_H_
 
 #include <cassert>
-#include <iostream>
 
 namespace my {
+
+    #define INT_MAX     0x7fffffff
+    #define UINT_MAX    0xffffffffU
+    #define INT64_MAX   0x7fffffffffffffffLL
+    #define UINT64_MAX  0xffffffffffffffffLL
+
     template <typename T>
     void swap(T &a, T &b) {
         T temp = a;
@@ -19,7 +24,19 @@ namespace my {
                 return exp ? base : 1;
             }
             const int half = self(self, base, exp>>1);
-            return static_cast<int> ((1LL * half * half) * ((exp&1) ? base : 1) % mod);
+            return static_cast<int> (1LL * half * half * ((exp&1) ? base : 1) % mod);
+        };
+        return _pow(_pow, base, exp);
+    }
+
+    int64_t myPow(const int64_t base, const int64_t exp, const int64_t mod = INT64_MAX) {
+        assert(exp >= 0);
+        auto _pow = [&mod] (auto&& self, const int64_t base, const int64_t exp) -> int64_t {
+            if ((exp & ~1) == 0) {
+                return exp ? base : 1;
+            }
+            const int half = self(self, base, exp>>1);
+            return static_cast<int64_t> (static_cast<__int128_t> (half) * half * ((exp&1) ? base : 1) % mod);
         };
         return _pow(_pow, base, exp);
     }
@@ -40,6 +57,6 @@ namespace my {
     class vector;
 
     class treeVector;
-} // namespace structure
+} // namespace my
 
 #endif // _STRUCTURE_H_
