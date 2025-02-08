@@ -57,7 +57,7 @@ namespace my {
             for (int i = 0; i < cur_size; ++i) {
                 data[i] = val;
             }
-        } 
+        }
 
         vector(const vector& arr) {
             max_size  = arr.max_size;
