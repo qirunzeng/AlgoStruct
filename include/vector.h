@@ -20,21 +20,23 @@ namespace my {
             data = nullptr;
         }
 
-        void clear() {
-            max_size = cur_size = 0;
-        }
+        void clear() {}
 
         void reserve(int n) {
-            if (max_size >= n)
+            if (max_size >= n) {
                 return ;
-            if (max_size == 0) max_size = 1;
-            while (max_size < n)
-                max_size <<= 1;
-            std::unique_ptr<T[]> pTemp(new T[static_cast<size_t>(max_size)]);
-            for (int i = 0; i < cur_size; ++i) {
-                pTemp[i] = data[i];
             }
-            data = move(pTemp);
+            if (max_size == 0) {
+                max_size = 1;
+            }
+            while (max_size < n) {
+                max_size <<= 1;
+            }
+            std::unique_ptr<T[]> temp(new T[static_cast<size_t>(max_size)]);
+            for (int i = 0; i < cur_size; ++i) {
+                temp[i] = data[i];
+            }
+            data = move(temp);
         }
     public:
         vector() {
