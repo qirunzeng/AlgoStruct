@@ -1,4 +1,5 @@
 #include "vector.h"
+#include "algorithm.h"
 
 int main() {
     my::vector<int> v;
