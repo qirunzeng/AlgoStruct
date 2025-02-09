@@ -9,7 +9,21 @@
 #ifndef MY_UTILITY_H_
 #define MY_UTILITY_H_
 
+#include <initializer_list>
+#include <forward_list>
+
 namespace my {
+    template <typename T1, typename T2>
+    struct pair {
+        T1 first;
+        T2 second;
+
+        pair() : first(T1()), second(T2()) {}
+
+        pair(T1&& a, T2&& b) : first(std::forward<T1>(a)), second(std::forward<T2>(b)) {}
+
+        pair(const T1& a, const T2& b) : first(a), second(b) {}
+    };
 
     template <typename T>
     T &&move(T &a) {

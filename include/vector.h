@@ -160,7 +160,7 @@ namespace my {
             return *this;
         }
 
-        void resize(size_t n, int val = 0) {
+        void resize(size_t n, T&& val = T()) {
             reserve(n);
             while (cur_size < n) {
                 data[cur_size++] = val;

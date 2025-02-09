@@ -9,7 +9,7 @@
 #ifndef MY_ASSERT_H_
 #define MY_ASSERT_H_
 
-#include <exception>
+// #include <exception>
 
 namespace my {
 

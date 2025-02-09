@@ -12,11 +12,13 @@
 
 #include <cstdio>
 
+#include "myLimits.h"
+
 namespace my {
     class myCout {
     public:
-        myCout& operator<<(const char* str) {
-            printf("%s", str);
+        myCout& operator<<(char value) {
+            printf("%c", value);
             return *this;
         }
 
@@ -25,11 +27,27 @@ namespace my {
             return *this;
         }
 
+        myCout& operator<<(int64 value) {
+            printf("%lld", value);
+            return *this;
+        }
+
         myCout& operator<<(double value) {
             printf("%f", value);
             return *this;
         }
 
+        myCout& operator<<(const char* str) {
+            printf("%s", str);
+            return *this;
+        }
+
+        // do nothing
+        myCout& operator<<(const myCout& os) {
+            return *this;
+        }
+
+        // for my::endl
         myCout& operator<<(myCout& (*manip)(myCout&)) {
             return manip(*this);
         }
@@ -37,18 +55,36 @@ namespace my {
 
     myCout& endl(myCout& os) {
         os << "\n";
+        fflush(stdout);
         return os;
     }
 
     class myCin {
     public:
+        myCin& operator>>(char& value) {
+            scanf("%c", &value);
+            return *this;
+        }
+
         myCin& operator>>(int& value) {
             scanf("%d", &value);
             return *this;
         }
 
+
+        myCin& operator>>(int64& value) {
+            scanf("%lld", &value);
+            return *this;
+        }
+
         myCin& operator>>(double& value) {
             scanf("%lf", &value);
+            return *this;
+        }
+
+
+        myCin& operator>>(float& value) {
+            scanf("%f", &value);
             return *this;
         }
 

@@ -87,7 +87,6 @@ namespace my {
 
 
         bool modify(size_t pos, const int val) {
-            // idx++;
             if (pos > size) {
                 return false;
             }

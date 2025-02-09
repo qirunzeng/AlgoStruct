@@ -21,12 +21,6 @@ namespace my {
     }
 
 
-    template <typename T1, typename T2>
-    struct pair {
-        T1 first;
-        T2 second;
-        pair(T1 &a, T2 &b) : first(a), second(b) {}
-    };
 
     inline int pow(const int base, const int exp, const int mod = _INT_MAX_) {
         my_assert(exp >= 0);
