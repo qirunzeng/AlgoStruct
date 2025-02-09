@@ -5,8 +5,8 @@
  * Description:
  */
 
-#ifndef _TREEVECTOR_H_
-#define _TREEVECTOR_H_
+#ifndef _FENWICK_H_
+#define _FENWICK_H_
 
 #include "vector.h"
 #include <memory>
@@ -126,6 +126,7 @@ namespace my {
             return true;
         }
     }; // class fenwick
+
 } // namespace my
 
-#endif // _TREEVECTOR_H_
+#endif // _FENWICK_H_
