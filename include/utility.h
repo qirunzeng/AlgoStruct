@@ -1,5 +1,5 @@
-#ifndef _UTILITY_H_
-#define _UTILITY_H_
+#ifndef MY_UTILITY_H_
+#define MY_UTILITY_H_
 
 namespace my {
     template <typename T>
@@ -8,4 +8,4 @@ namespace my {
     }
 }
 
-#endif // _UTILITY_H_
+#endif // MY_UTILITY_H_

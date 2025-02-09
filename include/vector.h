@@ -2,7 +2,7 @@
 #define _VECTOR_H_
 
 #include "cassert.h"
-#include "algorithm.h"
+// #include "algorithm.h"
 #include "utility.h"
 #include <memory>     // for std::unique_ptr
 
@@ -44,7 +44,7 @@ namespace my {
         }
         
         vector(int n, const T& val) {
-            assert(n >= 0);
+            my_assert(n >= 0);
             if (n == 0) {
                 Init();
             }
@@ -75,12 +75,12 @@ namespace my {
         }
 
         T& operator[](int idx) {
-            cassert(idx >= 0 && idx < cur_size);
+            my_assert(idx >= 0 && idx < cur_size);
             return data[idx];
         }
 
         const T& operator[](int idx) const {
-            cassert(idx >= 0 && idx < cur_size);
+            my_assert(idx >= 0 && idx < cur_size);
             return data[idx];
         }
 
@@ -114,7 +114,7 @@ namespace my {
         }
 
         void delete_at(int idx) {
-            cassert(idx >= 0 && idx < cur_size);
+            my_assert(idx >= 0 && idx < cur_size);
             cur_size--;
             for (int i = idx; i < cur_size; ++i) {
                 data[i] = data[i+1];
@@ -122,7 +122,7 @@ namespace my {
         }
 
         void insert(int idx, const T& val) {
-            cassert(idx >= 0 && idx <= cur_size);
+            my_assert(idx >= 0 && idx <= cur_size);
             reserve(cur_size+1);
             for (int i = cur_size; i > idx; --i) {
                 data[i] = data[i-1];
@@ -144,7 +144,7 @@ namespace my {
         }
 
         void resize(int n, int val = 0) {
-            cassert(n >= 0);
+            my_assert(n >= 0);
             reserve(n);
             while (cur_size < n) {
                 data[cur_size++] = val;
