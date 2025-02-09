@@ -1,3 +1,11 @@
+/*
+ * Author: Qirun Zeng
+ * Date Created: 2025-02-05 21:35:41
+ * Last Modified: 2025-02-09 14:04:33
+ * Description:
+ */
+
+
 #ifndef MY_ALGORITHM_H_
 #define MY_ALGORITHM_H_
 
@@ -43,7 +51,6 @@ namespace my {
         };
         return _pow(_pow, base, exp);
     }
-    
 }
 
 #endif // MY_ALGORITHM_H_

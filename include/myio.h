@@ -1,3 +1,11 @@
+/*
+ * Author: Qirun Zeng
+ * Date Created: 2025-02-08 22:37:54
+ * Last Modified: 2025-02-09 14:06:01
+ * Description:
+ */
+
+
 #ifndef MY_IO_H_
 #define MY_IO_H_
 
@@ -31,7 +39,6 @@ namespace my {
         os << "\n";
         return os;
     }
-
 
     class myCin {
     public:
