@@ -14,27 +14,28 @@
 
 namespace my {
 
+    template <typename T>
     class fenwick {
     private:
-        vector<int> nodes;
-        vector<int> nums;
+        vector<T> nodes;
+        vector<T> nums;
         size_t size;
-
-        void makeTree() {
-            std::unique_ptr<int[]> prefix(new int[size+1]);
-            prefix[0] = 0;
-            for (int i = 1; i <= size; ++i) {
-                prefix[i] = prefix[i-1] + nums[i];
-            }
-            for (int i = 1; i <= size; ++i) {
-                nodes[i] = prefix[i] - prefix[i & (i-1)];
-            }
-        }
 
         // return the lowest bit of size
         size_t lowbit(size_t size) {
             return size & -size;
         }
+
+        void makeTree() {
+            for (size_t i = 1; i <= size; ++i) {
+                nodes[i] += nums[i];
+                const size_t p = i + lowbit(i);
+                if (p <= size) {
+                    nodes[p] += nodes[i];
+                }
+            }
+        }
+
 
     public:
 
@@ -50,7 +51,7 @@ namespace my {
             makeTree();
         }
 
-        fenwick(vector<int> arr) : size(arr.size()) {
+        fenwick(vector<T> arr) : size(arr.size()) {
             nodes.resize(size+1);
             nums.resize(size+1);
             nodes[0] = nums[0] = 0;
@@ -60,7 +61,7 @@ namespace my {
             makeTree();
         }
 
-        fenwick(std::initializer_list<int> arr) : size(arr.size()) {
+        fenwick(std::initializer_list<T> arr) : size(arr.size()) {
             nodes.resize(size+1);
             nums.resize(size+1);
             nodes[0] = nums[0] = 0;
@@ -95,8 +96,7 @@ namespace my {
             return getSum(r) - getSum(l-1);
         }
 
-
-        bool add(size_t pos, const int val) {
+        bool add(size_t pos, const T val) {
             if (pos > size) {
                 return false;
             }
@@ -109,7 +109,7 @@ namespace my {
             return true;
         }
 
-        bool multiply(size_t pos, const int val) {
+        bool multiply(size_t pos, const T val) {
             if (pos > size) {
                 return false;
             }
@@ -122,7 +122,7 @@ namespace my {
             return true;
         }
 
-        void push_back(const int val) {
+        void push_back(const T val) {
             size++;
             nums.push_back(val);
             nodes.push_back(val + getSum((size & size-1) + 1, size - 1));
