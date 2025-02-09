@@ -12,9 +12,6 @@
 #include <memory>
 #include <initializer_list>
 
-/**
- * 树状数组
- */
 namespace my {
 
     class fenwick {
@@ -34,7 +31,7 @@ namespace my {
             }
         }
 
-        // 返回 x 的最后一位 1
+        // return the lowest bit of size
         size_t lowbit(size_t size) {
             return size & -size;
         }
@@ -77,7 +74,6 @@ namespace my {
         ~fenwick() {}
 
         /*
-         * 查询前 n 个元素的和
          * return: sum(nums[1, n])
          */ 
         int getSum(size_t n) {
@@ -93,7 +89,7 @@ namespace my {
         }
 
         /*
-         * 查询区间 [l, r] 的和
+         * return sum(nums[l, r])
          */
         int getSum(const size_t l, const size_t r) {
             return getSum(r) - getSum(l-1);
@@ -104,11 +100,11 @@ namespace my {
             if (pos > size) {
                 return false;
             }
-            int diff = val - nums[pos];
+            const int diff = val - nums[pos];
             nums[pos] = val;
             while (pos <= size) {
                 nodes[pos] += diff;
-                pos += lowbit(pos); // 找父节点
+                pos += lowbit(pos); // parent node
             }
             return true;
         }
@@ -117,13 +113,19 @@ namespace my {
             if (pos > size) {
                 return false;
             }
-            int diff = nums[pos] * val - nums[pos];
+            const int diff = nums[pos] * val - nums[pos];
             nums[pos] *= val;
             while (pos <= size) {
                 nodes[pos] += diff;
-                pos += lowbit(pos); // 找父节点
+                pos += lowbit(pos);
             }
             return true;
+        }
+
+        void push_back(const int val) {
+            size++;
+            nums.push_back(val);
+            nodes.push_back(val + getSum((size & size-1) + 1, size - 1));
         }
     }; // class fenwick
 
