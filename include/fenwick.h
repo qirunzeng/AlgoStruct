@@ -1,4 +1,4 @@
-/*
+/**
  * Author: Qirun Zeng
  * Date Created: 2025-02-04 20:33:29
  * Last Modified: 2025-02-09 14:05:50
@@ -10,13 +10,14 @@
 
 #include "vector.h"
 #include <memory>
+#include <initializer_list>
 
 /**
  * 树状数组
  */
 namespace my {
 
-    class treeVector {
+    class fenwick {
     private:
         vector<int> nodes;
         vector<int> nums;
@@ -40,9 +41,9 @@ namespace my {
 
     public:
 
-        treeVector() : size(0) {}
+        fenwick() : size(0) {}
 
-        treeVector(int *arr, const size_t n) : size(n) {
+        fenwick(int *arr, const size_t n) : size(n) {
             nodes.resize(n+1);
             nums.resize(n+1);
             nodes[0] = nums[0] = 0;
@@ -52,7 +53,7 @@ namespace my {
             makeTree();
         }
 
-        treeVector(vector<int> arr) : size(arr.size()) {
+        fenwick(vector<int> arr) : size(arr.size()) {
             nodes.resize(size+1);
             nums.resize(size+1);
             nodes[0] = nums[0] = 0;
@@ -61,6 +62,19 @@ namespace my {
             }
             makeTree();
         }
+
+        fenwick(std::initializer_list<int> arr) : size(arr.size()) {
+            nodes.resize(size+1);
+            nums.resize(size+1);
+            nodes[0] = nums[0] = 0;
+            size_t i = 1;
+            for (auto it = arr.begin(); it != arr.end(); ++it) {
+                nums[i++] = *it;
+            }
+            makeTree();
+        }
+
+        ~fenwick() {}
 
         /*
          * 查询前 n 个元素的和
@@ -86,7 +100,7 @@ namespace my {
         }
 
 
-        bool modify(size_t pos, const int val) {
+        bool add(size_t pos, const int val) {
             if (pos > size) {
                 return false;
             }
@@ -98,7 +112,20 @@ namespace my {
             }
             return true;
         }
-    }; // class treeVector
+
+        bool multiply(size_t pos, const int val) {
+            if (pos > size) {
+                return false;
+            }
+            int diff = nums[pos] * val - nums[pos];
+            nums[pos] *= val;
+            while (pos <= size) {
+                nodes[pos] += diff;
+                pos += lowbit(pos); // 找父节点
+            }
+            return true;
+        }
+    }; // class fenwick
 } // namespace my
 
 #endif // _TREEVECTOR_H_
