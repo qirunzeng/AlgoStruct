@@ -1,7 +1,7 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
-#include <cassert>
+#include "cassert.h"
 #include "algorithm.h"
 #include "utility.h"
 #include <memory>     // for std::unique_ptr
@@ -75,12 +75,12 @@ namespace my {
         }
 
         T& operator[](int idx) {
-            assert(idx >= 0 && idx < cur_size);
+            cassert(idx >= 0 && idx < cur_size);
             return data[idx];
         }
 
         const T& operator[](int idx) const {
-            assert(idx >= 0 && idx < cur_size);
+            cassert(idx >= 0 && idx < cur_size);
             return data[idx];
         }
 
@@ -114,7 +114,7 @@ namespace my {
         }
 
         void delete_at(int idx) {
-            assert(idx >= 0 && idx < cur_size);
+            cassert(idx >= 0 && idx < cur_size);
             cur_size--;
             for (int i = idx; i < cur_size; ++i) {
                 data[i] = data[i+1];
@@ -122,7 +122,7 @@ namespace my {
         }
 
         void insert(int idx, const T& val) {
-            assert(idx >= 0 && idx <= cur_size);
+            cassert(idx >= 0 && idx <= cur_size);
             reserve(cur_size+1);
             for (int i = cur_size; i > idx; --i) {
                 data[i] = data[i-1];
@@ -134,7 +134,7 @@ namespace my {
             if (this == &arr) {
                 return *this;
             }
-            max_size  = arr.max_size;
+            max_size = arr.max_size;
             cur_size = arr.size;
             data.reset(new T[max_size]);
             for (int i = 0; i < cur_size; ++i) {
@@ -144,7 +144,7 @@ namespace my {
         }
 
         void resize(int n, int val = 0) {
-            assert(n >= 0);
+            cassert(n >= 0);
             reserve(n);
             while (cur_size < n) {
                 data[cur_size++] = val;

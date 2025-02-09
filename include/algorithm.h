@@ -1,7 +1,7 @@
 #ifndef _ALGORITHM_H_
 #define _ALGORITHM_H_
 
-#include <cassert>
+#include "cassert.h"
 
 namespace my {
 
@@ -26,7 +26,7 @@ namespace my {
     };
 
     int pow(const int base, const int exp, const int mod = _INT_MAX_) {
-        assert(exp >= 0);
+        cassert(exp >= 0);
         auto _pow = [&mod] (auto&& self, const int base, const int exp) -> int {
             if ((exp & ~1) == 0) {
                 return exp ? base : 1;
@@ -38,7 +38,7 @@ namespace my {
     }
 
     int64_t pow(const int64_t base, const int64_t exp, const int64_t mod = _INT64_MAX_) {
-        assert(exp >= 0);
+        cassert(exp >= 0);
         auto _pow = [&mod] (auto&& self, const int64_t base, const int64_t exp) -> int64_t {
             if ((exp & ~1) == 0) {
                 return exp ? base : 1;
