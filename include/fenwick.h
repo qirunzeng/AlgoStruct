@@ -13,7 +13,6 @@
 #include <initializer_list>
 
 namespace my {
-
     template <typename T>
     class fenwick {
     private:
@@ -21,7 +20,6 @@ namespace my {
         vector<T> nums;
         size_t size;
 
-        // return the lowest bit of size
         size_t lowbit(size_t size) {
             return size & -size;
         }
@@ -36,12 +34,10 @@ namespace my {
             }
         }
 
-
     public:
-
         fenwick() : size(0) {}
 
-        fenwick(int *arr, const size_t n) : size(n) {
+        fenwick(T *arr, const size_t n) : size(n) {
             nodes.resize(n+1);
             nums.resize(n+1);
             nodes[0] = nums[0] = 0;
@@ -74,14 +70,12 @@ namespace my {
 
         ~fenwick() {}
 
-        /*
-         * return: sum(nums[1, n])
-         */ 
-        int getSum(size_t n) {
+        // sum(nums[1, n])
+        T getSum(size_t n) {
             if (n > size) {
                 return -1;
             }
-            int ret = 0;
+            T ret = 0;
             while (n) {
                 ret += nodes[n];
                 n &= n-1;
@@ -89,35 +83,30 @@ namespace my {
             return ret;
         }
 
-        /*
-         * return sum(nums[l, r])
-         */
+        // sum(nums[l, r])
         int getSum(const size_t l, const size_t r) {
             return getSum(r) - getSum(l-1);
         }
 
-        bool add(size_t pos, const T val) {
+        bool update(size_t pos, const T val) {
             if (pos > size) {
                 return false;
             }
-            const int diff = val - nums[pos];
+            // 判断 T 是不是 double 类型
+            if (typeid(T) == typeid(double) || typeid(T) == typeid(float)) {
+                const double diff = val - nums[pos];
+                nums[pos] = val;
+                while (pos <= size) {
+                    nodes[pos] += diff;
+                    pos += lowbit(pos); // parent node
+                }
+                return true;
+            }
+            const int64 diff = val - nums[pos];
             nums[pos] = val;
             while (pos <= size) {
                 nodes[pos] += diff;
                 pos += lowbit(pos); // parent node
-            }
-            return true;
-        }
-
-        bool multiply(size_t pos, const T val) {
-            if (pos > size) {
-                return false;
-            }
-            const int diff = nums[pos] * val - nums[pos];
-            nums[pos] *= val;
-            while (pos <= size) {
-                nodes[pos] += diff;
-                pos += lowbit(pos);
             }
             return true;
         }
@@ -127,8 +116,7 @@ namespace my {
             nums.push_back(val);
             nodes.push_back(val + getSum((size & size-1) + 1, size - 1));
         }
-    }; // class fenwick
-
-} // namespace my
+    };
+}
 
 #endif // _FENWICK_H_

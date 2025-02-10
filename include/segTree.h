@@ -11,7 +11,6 @@
 
 #include "vector.h"
 
-
 namespace my {
     class segTree {
     private:
