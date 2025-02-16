@@ -28,23 +28,23 @@ namespace my {
     std::vector<int> nums;
     size_t size;
 
-    void makeTree(int l, int r, int p) {
+    void makeTree(size_t l, size_t r, int p) {
         if (l == r) {
             nodes[p] = {nums[l], 1, 0};
             return ;
         }
-        int mid = l + ((r-l)>>1);
+        size_t mid = l + ((r-l)>>1);
         makeTree(l, mid, p<<1);
         makeTree(mid+1, r, p<<1|1);
         nodes[p] = {nodes[p<<1].num + nodes[p<<1|1].num, 1, 0};
     }
 
-    int getSum(int l, int r, int p, int L, int R) {
+    int getSum(size_t l, size_t r, int p, size_t L, size_t R) {
         if (l <= L && r >= R) {
             return nodes[p].num;
         }
         int mid = L + ((R-L)>>1);
-        int res = 0;
+        size_t res = 0;
 
         nodes[p<<1].num = nodes[p<<1].num * nodes[p].mul + nodes[p].add * (mid-L+1);
         nodes[p<<1|1].num = nodes[p<<1|1].num * nodes[p].mul + nodes[p].add * (R-mid);
@@ -64,7 +64,7 @@ namespace my {
         return res;
     }
 
-    void add(int l, int r, int incr, int p, int L, int R) {
+    void add(size_t l, size_t r, int incr, int p, size_t L, size_t R) {
         if (l <= L && r >= R) {
             nodes[p].num += incr * (R-L+1);
             nodes[p].add += incr;
@@ -89,7 +89,7 @@ namespace my {
         nodes[p].num = nodes[p<<1].num + nodes[p<<1|1].num;
     }
 
-    void mul(int l, int r, int times, int p, int L, int R) {
+    void mul(size_t l, size_t r, int times, int p, size_t L, size_t R) {
         if (l <= L && r >= R) {
             nodes[p].num *= times;
             nodes[p].mul *= times;
@@ -136,19 +136,19 @@ namespace my {
             makeTree(1, size, 1);
         }
 
-        int getSum(int l, int r) {
+        int getSum(size_t l, size_t r) {
             return getSum(l, r, 1, 1, size);
         }
 
-        void add(int l, int r, int incr) {
+        void add(size_t l, size_t r, int incr) {
             add(l, r, incr, 1, 1, size);
         }
 
-        void mul(int l, int r, int times) {
+        void mul(size_t l, size_t r, int times) {
             mul(l, r, times, 1, 1, size);
         }
 
-        void set(int pos, int val) {
+        void set(size_t pos, int val) {
             add(pos, pos, val - nums[pos]);
         }
     };
