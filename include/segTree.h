@@ -28,7 +28,7 @@ namespace my {
     std::vector<int> nums;
     size_t size;
 
-    void makeTree(size_t l, size_t r, int p) {
+    void makeTree(size_t l, size_t r, size_t p) {
         if (l == r) {
             nodes[p] = {nums[l], 1, 0};
             return ;
@@ -39,7 +39,7 @@ namespace my {
         nodes[p] = {nodes[p<<1].num + nodes[p<<1|1].num, 1, 0};
     }
 
-    int getSum(size_t l, size_t r, int p, size_t L, size_t R) {
+    int getSum(size_t l, size_t r, size_t p, size_t L, size_t R) {
         if (l <= L && r >= R) {
             return nodes[p].num;
         }
@@ -64,7 +64,7 @@ namespace my {
         return res;
     }
 
-    void add(size_t l, size_t r, int incr, int p, size_t L, size_t R) {
+    void add(size_t l, size_t r, const int incr, size_t p, size_t L, size_t R) {
         if (l <= L && r >= R) {
             nodes[p].num += incr * (R-L+1);
             nodes[p].add += incr;
@@ -89,7 +89,7 @@ namespace my {
         nodes[p].num = nodes[p<<1].num + nodes[p<<1|1].num;
     }
 
-    void mul(size_t l, size_t r, int times, int p, size_t L, size_t R) {
+    void mul(size_t l, size_t r, const int times, size_t p, size_t L, size_t R) {
         if (l <= L && r >= R) {
             nodes[p].num *= times;
             nodes[p].mul *= times;
@@ -118,7 +118,7 @@ namespace my {
     public:
         segTree() : size(0) {}
 
-        segTree(int *arr, int n) : size(n) {
+        segTree(int *arr, size_t n) : size(n) {
             nodes.resize(n<<2);
             nums.resize(n+1);
             for (int i = 0; i < n; ++i) {
@@ -140,15 +140,15 @@ namespace my {
             return getSum(l, r, 1, 1, size);
         }
 
-        void add(size_t l, size_t r, int incr) {
+        void add(size_t l, size_t r, const int incr) {
             add(l, r, incr, 1, 1, size);
         }
 
-        void mul(size_t l, size_t r, int times) {
+        void mul(size_t l, size_t r, const int times) {
             mul(l, r, times, 1, 1, size);
         }
 
-        void set(size_t pos, int val) {
+        void set(size_t pos, const int val) {
             add(pos, pos, val - nums[pos]);
         }
     };
