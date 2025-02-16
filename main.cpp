@@ -1,17 +1,17 @@
-#include "vector.h"
-#include "algorithm.h"
+#include "segTree.h"
 #include "fenwick.h"
-#include "myio.h"
 
 #include <iostream>
 
-int main() {
-    my::vector<int> v({1, 2, 3, 4, 5});
-    my::fenwick fw(v);
-    fw.push_back(6);
-    my::cout << fw.getSum(6) << my::endl;
 
-    my::pair<int, char> p({1, 'a'});
-    my::cout << p.first << " " << p.second << my::endl;
+int main() {
+    my::segTree st({10, 11, 17, 13, 14});
+
+    st.add(1, 3, 1); // 11, 12, 18, 13, 14
+    st.mul(2, 4, 2); // 11, 24, 36, 26, 14
+    std::cout << st.getSum(1, 3) << std::endl; // 71
+
+
+
     return 0;
 }
