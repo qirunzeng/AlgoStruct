@@ -8,16 +8,18 @@
 #ifndef _FENWICK_H_
 #define _FENWICK_H_
 
-#include "vector.h"
+// #include "vector.h"
+#include <vector>
 #include <memory>
 #include <initializer_list>
+#include "myLimits.h"
 
 namespace my {
     template <typename T>
     class fenwick {
     private:
-        vector<T> nodes;
-        vector<T> nums;
+        std::vector<T> nodes;
+        std::vector<T> nums;
         size_t size;
 
         size_t lowbit(size_t size) {
@@ -47,7 +49,7 @@ namespace my {
             makeTree();
         }
 
-        fenwick(vector<T> arr) : size(arr.size()) {
+        fenwick(std::vector<T> arr) : size(arr.size()) {
             nodes.resize(size+1);
             nums.resize(size+1);
             nodes[0] = nums[0] = 0;

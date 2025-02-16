@@ -10,6 +10,7 @@
 #define MY_ASSERT_H_
 
 // #include <exception>
+#include <cstdlib>
 
 namespace my {
 
@@ -18,6 +19,5 @@ namespace my {
         exit(1); \
     }
 }
-
 
 #endif // MY_ASSERT_H_
